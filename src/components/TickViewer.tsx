@@ -31,7 +31,7 @@ export default function TickViewer(props: TickViewerProps) {
               </option>
             ))}
         </select>
-        <div className="sm:ml-auto">
+        <div className="ml-0 pl-0 sm:ml-auto sm:pl-4">
           {lastTick ? (
             <div className="text-right">
               <div className="text-sm text-gray-500">Last</div>
