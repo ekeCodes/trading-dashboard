@@ -14,7 +14,7 @@ export default function TickViewer(props: TickViewerProps) {
 
   return (
     <div className="p-3 border rounded bg-white h-full">
-      <div className="flex items-center gap-2 mb-2 h-1/4 flex-wrap">
+      <div className="flex gap-2 mb-2 h-1/4 flex-col sm:flex-wrap">
         <label className="text-sm">Live Symbol</label>
         <select
           value={symbol}
@@ -31,9 +31,9 @@ export default function TickViewer(props: TickViewerProps) {
               </option>
             ))}
         </select>
-        <div className="ml-0 pl-0 sm:ml-auto sm:pl-4">
+        <div className="ml-0 pl-0 sm:ml-auto ">
           {lastTick ? (
-            <div className="text-right">
+            <div className=" sm:text-right">
               <div className="text-sm text-gray-500">Last</div>
               <div className="text-lg font-semibold">{lastTick.price}</div>
               <div className="text-xs text-gray-500">{new Date(lastTick.timestamp * 1000).toLocaleTimeString()}</div>
