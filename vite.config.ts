@@ -3,6 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "./trading-dashboard/",
+  base: "/trading-dashboard/",
   plugins: [react()],
 });
