@@ -3,43 +3,37 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridReact } from "ag-grid-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { fetchOrders } from "../api";
+import { useSymbolContext } from "../context/SymbolContext";
 import { useGridAutoSize } from "../hooks/useGridAutoSize";
-import type { Order, SymbolInfo } from "../types";
+import type { Order } from "../types";
+import SymbolDropdown from "./SymbolsDropdown";
 
-export interface OrdersTableProps {
-  symbolList: SymbolInfo[];
-  orderSymbol: string;
-  setOrderSymbol: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export default function OrdersTable(props: OrdersTableProps) {
-  const { symbolList, orderSymbol, setOrderSymbol } = props;
-  const [activeSymbol, setActiveSymbol] = useState<string>(
-    symbolList && symbolList[0] && symbolList[0].symbol ? symbolList[0].symbol : "AAPL"
-  );
+export default function OrdersTable() {
+  const { initialActiveSymbol, activeOrderSymbol, setActiveOrderSymbol } = useSymbolContext();
+  const [activeSymbol, setActiveSymbol] = useState<string>(initialActiveSymbol);
   const [isLiveMode, setIsLiveMode] = useState<boolean>(true);
   const [rowData, setRowData] = useState<Order[]>([]);
   const { gridRef, onGridReady } = useGridAutoSize();
 
   const loadOrders = useCallback(async () => {
     try {
-      const data = await fetchOrders(activeSymbol);
+      const data = await fetchOrders(activeSymbol || initialActiveSymbol);
       setRowData(data);
     } catch (e) {
       setRowData([]);
     }
-  }, [activeSymbol]);
+  }, [activeSymbol, initialActiveSymbol]);
 
   useEffect(() => {
-    loadOrders();
-  }, []);
+    (activeSymbol || initialActiveSymbol) && loadOrders();
+  }, [activeSymbol, initialActiveSymbol]);
 
   useEffect(() => {
-    if (isLiveMode && orderSymbol !== "" && orderSymbol === activeSymbol) {
+    if (isLiveMode && activeOrderSymbol !== "" && activeOrderSymbol === (activeSymbol || initialActiveSymbol)) {
       loadOrders();
     }
-    setOrderSymbol("");
-  }, [isLiveMode, orderSymbol]);
+    setActiveOrderSymbol("");
+  }, [isLiveMode, activeOrderSymbol]);
 
   const onClickRefresh = useCallback(() => {
     loadOrders();
@@ -87,16 +81,13 @@ export default function OrdersTable(props: OrdersTableProps) {
     []
   );
 
+  const onChange = useCallback((symbol: string) => {
+    setActiveSymbol(symbol);
+  }, []);
   return (
     <div className="p-4 border rounded bg-white">
       <div className="flex gap-2 mb-2 items-center flex-wrap">
-        <select value={activeSymbol} onChange={(e) => setActiveSymbol(e.target.value)} className="p-2 border">
-          {symbolList.map((s) => (
-            <option key={s.symbol} value={s.symbol}>
-              {s.symbol}
-            </option>
-          ))}
-        </select>
+        <SymbolDropdown value={activeSymbol} onChange={onChange} />
         <button onClick={onClickRefresh} className="px-3 py-1 bg-slate-700 text-white rounded">
           Refresh
         </button>

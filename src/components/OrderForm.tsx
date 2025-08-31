@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { postOrder } from "../api";
-import type { SymbolInfo } from "../types";
+import { useSymbolContext } from "../context/SymbolContext";
+import SymbolDropdown from "./SymbolsDropdown";
 
-export interface OrderFormProps {
-  symbolList: SymbolInfo[];
-  setOrderSymbol: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export default function OrderForm(props: OrderFormProps) {
-  const { symbolList, setOrderSymbol } = props;
-  const [symbol, setSymbol] = useState<string>(symbolList && symbolList[0] && symbolList[0].symbol ? symbolList[0].symbol : "AAPL");
+export default function OrderForm() {
+  const { initialActiveSymbol, symbols, setActiveOrderSymbol } = useSymbolContext();
+  const [activeSymbol, setActiveSymbol] = useState<string>(initialActiveSymbol);
   const [side, setSide] = useState<"BUY" | "SELL">("BUY");
   const [qty, setQty] = useState<number>(1);
   const [price, setPrice] = useState<string>("");
@@ -18,21 +14,21 @@ export default function OrderForm(props: OrderFormProps) {
     text: string;
   } | null>(null);
 
-  function symbolMeta() {
-    return symbolList.find((s) => s.symbol === symbol);
-  }
+  const symbolMeta = useMemo(() => {
+    return symbols.find((s) => s.symbol === (activeSymbol || initialActiveSymbol));
+  }, [symbols, activeSymbol, initialActiveSymbol]);
 
   function validate() {
-    if (!symbol) return "Symbol required";
+    if (!activeSymbol) return "Symbol required";
     if (!qty || qty <= 0) return "Qty must be > 0";
     const p = Number(price);
     if (!price || isNaN(p) || p <= 0) return "Price must be > 0";
-    const meta = symbolMeta();
+    const meta = symbolMeta;
     if (meta) {
       const cp = meta.closePrice;
       const min = cp * 0.8;
       const max = cp * 1.2;
-      if (p < min || p > max) return `Price must be within ±20% of ${symbol} closePrice (${min.toFixed(2)} - ${max.toFixed(2)})`;
+      if (p < min || p > max) return `Price must be within ±20% of ${meta.symbol} closePrice (${min.toFixed(2)} - ${max.toFixed(2)})`;
     }
     return null;
   }
@@ -46,30 +42,27 @@ export default function OrderForm(props: OrderFormProps) {
     }
     try {
       const order = await postOrder({
-        symbol,
+        symbol: activeSymbol || initialActiveSymbol,
         side,
         qty,
         price: Number(price),
       });
-      setOrderSymbol(symbol);
+      setActiveOrderSymbol(activeSymbol || initialActiveSymbol);
       setMsg({ type: "success", text: `Order placed (id: ${order.id})` });
     } catch (err: any) {
       setMsg({ type: "error", text: err.message || String(err) });
     }
   }
 
+  const onChange = useCallback((symbol: string) => {
+    setActiveSymbol(symbol);
+  }, []);
+
   return (
     <form onSubmit={submit} className="p-4 border rounded bg-white h-full">
       <h2 className="font-semibold mb-2">Place Order</h2>
       <div className="mb-2">
-        <label className="block text-sm">Symbol</label>
-        <select value={symbol} onChange={(e) => setSymbol(e.target.value)} className="w-full p-2 border">
-          {symbolList.map((s) => (
-            <option key={s.symbol} value={s.symbol}>
-              {s.symbol} — {s.name}
-            </option>
-          ))}
-        </select>
+        <SymbolDropdown label="Symbol" value={activeSymbol} onChange={onChange} />
       </div>
       <div className="mb-2 flex gap-2">
         <label className="flex-1">
@@ -94,9 +87,9 @@ export default function OrderForm(props: OrderFormProps) {
           onChange={(e) => setPrice(e.target.value)}
           className="w-full p-2 border"
         />
-        {symbolMeta() && (
+        {symbolMeta && (
           <div className="text-xs text-gray-600 mt-1">
-            Allowed: {((symbolMeta()?.closePrice ?? 0) * 0.8).toFixed(2)} — {((symbolMeta()?.closePrice ?? 0) * 1.2).toFixed(2)}
+            Allowed: {((symbolMeta.closePrice ?? 0) * 0.8).toFixed(2)} — {((symbolMeta.closePrice ?? 0) * 1.2).toFixed(2)}
           </div>
         )}
       </div>

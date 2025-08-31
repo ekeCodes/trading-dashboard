@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useSymbolContext } from "../context/SymbolContext";
 import type { Tick } from "../types";
 
 const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:4000";
 
-export function useSubscribeTick(symbol: string) {
+export function useSubscribeTick(symbolValue: string) {
+  const { initialActiveSymbol } = useSymbolContext();
+  const symbol = symbolValue || initialActiveSymbol;
+
   const [lastTick, setLastTick] = useState<Tick | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const [ticks, setTicks] = useState<Tick[]>([]);

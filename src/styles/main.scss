@@ -22,7 +22,7 @@ body {
   background-color: #d1d5db;
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #6366f1; // ring-offset + ring-indigo-500
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #6366f1;
   }
 
   &__knob {
@@ -30,8 +30,8 @@ body {
     left: 3px;
     top: 50%;
     transform: translate(0, -50%);
-    width: 16px; // w-4
-    height: 16px; // h-4
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: #fff;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -39,7 +39,7 @@ body {
   }
 
   &--on {
-    background-color: #4f46e5; // indigo-600
+    background-color: #4f46e5;
 
     .toggle__knob {
       transform: translate(5px, -50%);
@@ -47,12 +47,12 @@ body {
   }
 
   &--sm {
-    width: 36px; // w-9
-    height: 20px; // h-5
+    width: 36px;
+    height: 20px;
 
     .toggle__knob {
-      width: 12px; // w-3
-      height: 12px; // h-3
+      width: 12px;
+      height: 12px;
     }
 
     &.toggle--on .toggle__knob {

@@ -74,7 +74,7 @@ app.post("/api/admin/add-symbol", (req, res) => {
   }
   const symbolObj = { symbol: upperSymbol, closePrice, name, market };
   appendSymbol(symbolObj);
-  broadcast({ type: "symbolsUpdated", symbols: SYMBOLS });
+  broadcast({ type: "symbolsUpdated", newSymbol: symbolObj });
   res.status(201).json(symbolObj);
 });
 
