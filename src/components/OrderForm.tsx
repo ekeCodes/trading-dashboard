@@ -59,7 +59,7 @@ export default function OrderForm(props: OrderFormProps) {
   }
 
   return (
-    <form onSubmit={submit} className="p-4 border rounded bg-white">
+    <form onSubmit={submit} className="p-4 border rounded bg-white h-full">
       <h2 className="font-semibold mb-2">Place Order</h2>
       <div className="mb-2">
         <label className="block text-sm">Symbol</label>
