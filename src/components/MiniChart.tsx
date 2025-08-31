@@ -1,7 +1,11 @@
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 
-export default function MiniChart({ data }: { data: { x: number; y: number }[] }) {
+export interface MiniChartProps {
+  data: { x: number; y: number }[];
+}
+export default function MiniChart(props: MiniChartProps) {
+  const { data } = props;
   const labels = data.map((d) => new Date(d.x).toLocaleTimeString());
   const dataset = data.map((d) => d.y);
   const chartData = {

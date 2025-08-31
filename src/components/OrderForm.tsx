@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { fetchSymbols, postOrder } from "../api";
+import React, { useState } from "react";
+import { postOrder } from "../api";
 import type { SymbolInfo } from "../types";
 
 export interface OrderFormProps {
   symbolList: SymbolInfo[];
-  isLiveMode: boolean;
+  setOrderSymbol: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function OrderForm(props: OrderFormProps) {
-  const { symbolList: initialSymbols, isLiveMode } = props;
-  const [symbols, setSymbols] = useState<SymbolInfo[]>(initialSymbols || []);
-  const [symbol, setSymbol] = useState<string>("AAPL");
+  const { symbolList, setOrderSymbol } = props;
+  const [symbol, setSymbol] = useState<string>(symbolList && symbolList[0] && symbolList[0].symbol ? symbolList[0].symbol : "AAPL");
   const [side, setSide] = useState<"BUY" | "SELL">("BUY");
   const [qty, setQty] = useState<number>(1);
   const [price, setPrice] = useState<string>("");
@@ -19,20 +18,8 @@ export default function OrderForm(props: OrderFormProps) {
     text: string;
   } | null>(null);
 
-  useEffect(() => {
-    if (initialSymbols && initialSymbols.length) setSymbols(initialSymbols);
-    else
-      fetchSymbols()
-        .then((s) => setSymbols(s))
-        .catch(() => {});
-  }, [initialSymbols]);
-
-  useEffect(() => {
-    if (symbols.length && !symbol) setSymbol(symbols[0].symbol);
-  }, [symbols]);
-
   function symbolMeta() {
-    return symbols.find((s) => s.symbol === symbol);
+    return symbolList.find((s) => s.symbol === symbol);
   }
 
   function validate() {
@@ -64,7 +51,7 @@ export default function OrderForm(props: OrderFormProps) {
         qty,
         price: Number(price),
       });
-
+      setOrderSymbol(symbol);
       setMsg({ type: "success", text: `Order placed (id: ${order.id})` });
     } catch (err: any) {
       setMsg({ type: "error", text: err.message || String(err) });
@@ -77,7 +64,7 @@ export default function OrderForm(props: OrderFormProps) {
       <div className="mb-2">
         <label className="block text-sm">Symbol</label>
         <select value={symbol} onChange={(e) => setSymbol(e.target.value)} className="w-full p-2 border">
-          {symbols.map((s) => (
+          {symbolList.map((s) => (
             <option key={s.symbol} value={s.symbol}>
               {s.symbol} — {s.name}
             </option>

@@ -1,33 +1,47 @@
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridReact } from "ag-grid-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { fetchOrders } from "../api";
 import type { Order, SymbolInfo } from "../types";
 
 export interface OrdersTableProps {
   symbolList: SymbolInfo[];
-  isLiveMode: boolean;
-  setIsLiveMode: React.Dispatch<React.SetStateAction<boolean>>;
+  orderSymbol: string;
+  setOrderSymbol: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function OrdersTable(props: OrdersTableProps) {
-  const { symbolList, setIsLiveMode, isLiveMode } = props;
-  const [activeSymbol, setActiveSymbol] = useState<string>(symbolList[0]?.symbol || "AAPL");
+  const { symbolList, orderSymbol, setOrderSymbol } = props;
+  const [activeSymbol, setActiveSymbol] = useState<string>(
+    symbolList && symbolList[0] && symbolList[0].symbol ? symbolList[0].symbol : "AAPL"
+  );
+  const [isLiveMode, setIsLiveMode] = useState<boolean>(true);
   const [rowData, setRowData] = useState<Order[]>([]);
 
-  useEffect(() => {
-    if (activeSymbol) loadOrders();
-  }, [activeSymbol]);
-
-  async function loadOrders() {
+  const loadOrders = useCallback(async () => {
     try {
       const data = await fetchOrders(activeSymbol);
       setRowData(data);
     } catch (e) {
       setRowData([]);
     }
-  }
+  }, [activeSymbol]);
+
+  useEffect(() => {
+    loadOrders();
+  }, []);
+
+  useEffect(() => {
+    if (isLiveMode && orderSymbol !== "" && orderSymbol === activeSymbol) {
+      loadOrders();
+    }
+    setOrderSymbol("");
+  }, [isLiveMode, orderSymbol]);
+
+  const onClickRefresh = useCallback(() => {
+    loadOrders();
+  }, [loadOrders]);
 
   const columns = useMemo(
     () => [
@@ -78,17 +92,22 @@ export default function OrdersTable(props: OrdersTableProps) {
             </option>
           ))}
         </select>
-        <button onClick={loadOrders} className="px-3 py-1 bg-slate-700 text-white rounded">
+        <button onClick={onClickRefresh} className="px-3 py-1 bg-slate-700 text-white rounded">
           Refresh
         </button>
-        <div className="flex align-items-center">
+        <div className="inline-flex items-center">
           <span className="p-1">Live Mode:</span>
           <button
             type="button"
             role="switch"
             aria-checked={isLiveMode}
             className={`toggle toggle--sm ${isLiveMode ? "toggle--on" : ""}`}
-            onClick={() => setIsLiveMode((prev) => !prev)}
+            onClick={() => {
+              setIsLiveMode((prev) => {
+                if (prev === false) onClickRefresh();
+                return !prev;
+              });
+            }}
           >
             <span aria-hidden className={"toggle__knob"} />
           </button>

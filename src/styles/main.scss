@@ -14,12 +14,12 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  border-radius: 9999px; // fully rounded
+  border-radius: 9999px;
   transition: background-color 0.2s ease;
   outline: none;
   border: none;
   cursor: pointer;
-  background-color: #d1d5db; // gray-300
+  background-color: #d1d5db;
 
   &:focus-visible {
     box-shadow: 0 0 0 2px #fff, 0 0 0 4px #6366f1; // ring-offset + ring-indigo-500
@@ -27,7 +27,7 @@ body {
 
   &__knob {
     position: absolute;
-    left: 0;
+    left: 3px;
     top: 50%;
     transform: translate(0, -50%);
     width: 16px; // w-4
@@ -42,7 +42,7 @@ body {
     background-color: #4f46e5; // indigo-600
 
     .toggle__knob {
-      transform: translate(20px, -50%); // move right
+      transform: translate(5px, -50%);
     }
   }
 

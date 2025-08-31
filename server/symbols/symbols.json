@@ -45,7 +45,7 @@
     "symbol": "NVDA",
     "name": "NVIDIA Corp.",
     "market": "NASDAQ",
-    "closePrice": 789.0
+    "closePrice": 789
   },
   {
     "symbol": "JPM",
@@ -63,7 +63,7 @@
     "symbol": "BTC-USD",
     "name": "Bitcoin / USD",
     "market": "Crypto",
-    "closePrice": 29000.0
+    "closePrice": 29000
   },
   {
     "symbol": "ETH-USD",
@@ -118,5 +118,25 @@
     "name": "AT&T Inc.",
     "market": "NYSE",
     "closePrice": 16.75
+  },
+  {
+    "symbol": "EKETEST",
+    "closePrice": 610
+  },
+  {
+    "symbol": "EKETEST1",
+    "closePrice": 610
+  },
+  {
+    "symbol": "EKETEST3",
+    "closePrice": 610,
+    "name": "Eke Test Symbol",
+    "market": "INDIA"
+  },
+  {
+    "symbol": "EKETEST4",
+    "closePrice": 610,
+    "name": "Eke Test Symbol",
+    "market": "INDIA"
   }
 ]
