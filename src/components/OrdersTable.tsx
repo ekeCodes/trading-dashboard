@@ -3,9 +3,8 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridReact } from "ag-grid-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { fetchOrders } from "../api";
-import type { Order, SymbolInfo } from "../types";
-import type { FirstDataRenderedEvent, GridReadyEvent } from "ag-grid-community";
 import { useGridAutoSize } from "../hooks/useGridAutoSize";
+import type { Order, SymbolInfo } from "../types";
 
 export interface OrdersTableProps {
   symbolList: SymbolInfo[];
