@@ -30,7 +30,7 @@ export default function TickViewer() {
           )}
         </div>
       </div>
-      {ticks.length > 0 && <MiniChart data={ticks.map((t) => ({ x: t.timestamp * 1000, y: t.price }))} />}
+      <MiniChart data={ticks.map((t) => ({ x: t.timestamp * 1000, y: t.price }))} isLoading={ticks.length === 0} />
     </div>
   );
 }

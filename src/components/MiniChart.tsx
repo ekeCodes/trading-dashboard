@@ -4,9 +4,10 @@ import { Line } from "react-chartjs-2";
 
 export interface MiniChartProps {
   data: { x: number; y: number }[];
+  isLoading: boolean;
 }
 export default function MiniChart(props: MiniChartProps) {
-  const { data } = props;
+  const { data, isLoading } = props;
   const labels = data.map((d) => new Date(d.x).toLocaleTimeString());
   const dataset = data.map((d) => d.y);
   const chartData = {
@@ -27,6 +28,11 @@ export default function MiniChart(props: MiniChartProps) {
   return (
     <div className=" h-[200px] relative top-[50px] sm:top-0">
       <Line id={`${Math.random()}`} data={chartData} options={options} />
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm z-10">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
   );
 }
