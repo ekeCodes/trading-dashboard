@@ -1,5 +1,6 @@
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
+import { Interaction, type ChartOptions, type InteractionAxis, type InteractionItem, type InteractionMode } from "chart.js/auto";
 
 export interface MiniChartProps {
   data: { x: number; y: number }[];
@@ -17,6 +18,11 @@ export default function MiniChart(props: MiniChartProps) {
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: { x: { display: false } },
+    interaction: {
+      mode: "nearest" as InteractionMode,
+      axis: "x" as InteractionAxis,
+      intersect: false,
+    },
   };
   return (
     <div className=" h-[200px] relative top-[50px] sm:top-0">
