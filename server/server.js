@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 4000;
-const WS_PORT = process.env.WS_PORT || 4001;
+const WS_PORT = process.env.PORT || 4001;
 
 const DATA_DIR = path.join(__dirname, "orders");
 const SYMBOLS_FILE = path.join(__dirname, "symbols/symbols.json");
