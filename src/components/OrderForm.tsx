@@ -67,14 +67,14 @@ export default function OrderForm() {
       <div className="mb-2 flex gap-2">
         <label className="flex-1">
           <div className="text-sm">Side</div>
-          <select value={side} onChange={(e) => setSide(e.target.value as "BUY" | "SELL")} className="w-full p-2 border">
+          <select value={side} onChange={(e) => setSide(e.target.value as "BUY" | "SELL")} className="w-full p-2 border rounded-md">
             <option>BUY</option>
             <option>SELL</option>
           </select>
         </label>
         <label className="flex-1">
           <div className="text-sm">Qty</div>
-          <input type="number" value={qty} onChange={(e) => setQty(Number(e.target.value))} className="w-full p-2 border" />
+          <input type="number" value={qty} onChange={(e) => setQty(Number(e.target.value))} className="w-full p-2 border rounded-md" />
         </label>
       </div>
       <div className="mb-2">
@@ -85,7 +85,7 @@ export default function OrderForm() {
           step="0.0001"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          className="w-full p-2 border"
+          className="w-full p-2 border rounded-md"
         />
         {symbolMeta && (
           <div className="text-xs text-gray-600 mt-1">
