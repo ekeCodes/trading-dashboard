@@ -1,6 +1,6 @@
-import { Line } from "react-chartjs-2";
 import "chart.js/auto";
-import { Interaction, type ChartOptions, type InteractionAxis, type InteractionItem, type InteractionMode } from "chart.js/auto";
+import { type InteractionAxis, type InteractionMode } from "chart.js/auto";
+import { Line } from "react-chartjs-2";
 
 export interface MiniChartProps {
   data: { x: number; y: number }[];
