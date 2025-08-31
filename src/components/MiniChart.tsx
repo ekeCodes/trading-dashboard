@@ -19,7 +19,7 @@ export default function MiniChart(props: MiniChartProps) {
     scales: { x: { display: false } },
   };
   return (
-    <div className="h-3/4">
+    <div className="h-[200px]">
       <Line id={`${Math.random()}`} data={chartData} options={options} />
     </div>
   );
