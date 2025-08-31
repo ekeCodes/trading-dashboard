@@ -13,8 +13,8 @@ export default function TickViewer(props: TickViewerProps) {
   const { lastTick, ticks, setTicks } = useSubscribeTick(symbol);
 
   return (
-    <div className="p-3 border rounded bg-white">
-      <div className="flex items-center gap-2 mb-2">
+    <div className="p-3 border rounded bg-white h-full">
+      <div className="flex items-center gap-2 mb-2 h-1/4 flex-wrap">
         <label className="text-sm">Live Symbol</label>
         <select
           value={symbol}
@@ -31,7 +31,7 @@ export default function TickViewer(props: TickViewerProps) {
               </option>
             ))}
         </select>
-        <div className="ml-auto">
+        <div className="sm:ml-auto">
           {lastTick ? (
             <div className="text-right">
               <div className="text-sm text-gray-500">Last</div>

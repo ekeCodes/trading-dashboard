@@ -4,6 +4,8 @@ import { AgGridReact } from "ag-grid-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { fetchOrders } from "../api";
 import type { Order, SymbolInfo } from "../types";
+import type { FirstDataRenderedEvent, GridReadyEvent } from "ag-grid-community";
+import { useGridAutoSize } from "../hooks/useGridAutoSize";
 
 export interface OrdersTableProps {
   symbolList: SymbolInfo[];
@@ -18,6 +20,7 @@ export default function OrdersTable(props: OrdersTableProps) {
   );
   const [isLiveMode, setIsLiveMode] = useState<boolean>(true);
   const [rowData, setRowData] = useState<Order[]>([]);
+  const { gridRef, onGridReady } = useGridAutoSize();
 
   const loadOrders = useCallback(async () => {
     try {
@@ -50,32 +53,35 @@ export default function OrdersTable(props: OrdersTableProps) {
         field: "id",
         sortable: true,
         filter: true,
-        width: 90,
+        minWidth: 70,
       },
       {
         headerName: "Side",
         field: "side",
         sortable: true,
         filter: "agTextColumnFilter",
-        width: 100,
+        minWidth: 80,
       },
       {
         headerName: "Qty",
         field: "qty",
         sortable: true,
         filter: "agNumberColumnFilter",
+        minWidth: 75,
       },
       {
         headerName: "Price",
         field: "price",
         sortable: true,
         filter: "agNumberColumnFilter",
+        minWidth: 90,
       },
       {
         headerName: "Timestamp",
         field: "timestamp",
         sortable: true,
-        filter: "agNumberColumnFilter",
+        filter: "agTextColumnFilter",
+        minWidth: 100,
         valueFormatter: (p: any) => new Date(p.value * 1000).toLocaleString(),
       },
     ],
@@ -84,7 +90,7 @@ export default function OrdersTable(props: OrdersTableProps) {
 
   return (
     <div className="p-4 border rounded bg-white">
-      <div className="flex gap-2 mb-2 items-center flex-column">
+      <div className="flex gap-2 mb-2 items-center flex-wrap">
         <select value={activeSymbol} onChange={(e) => setActiveSymbol(e.target.value)} className="p-2 border">
           {symbolList.map((s) => (
             <option key={s.symbol} value={s.symbol}>
@@ -113,10 +119,17 @@ export default function OrdersTable(props: OrdersTableProps) {
           </button>
         </div>
 
-        <div className="ml-auto text-sm text-gray-600">Rows: {rowData.length}</div>
+        <div className="sm:ml-auto text-sm text-gray-600">Rows: {rowData.length}</div>
       </div>
       <div className="ag-theme-alpine" style={{ height: 500, width: "100%" }}>
-        <AgGridReact rowData={rowData} columnDefs={columns} defaultColDef={{ resizable: true, sortable: true, filter: true }} animateRows />
+        <AgGridReact
+          ref={gridRef}
+          rowData={rowData}
+          columnDefs={columns}
+          defaultColDef={{ resizable: true, sortable: true, filter: true }}
+          animateRows
+          onGridReady={onGridReady}
+        />
       </div>
     </div>
   );
