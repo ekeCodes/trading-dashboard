@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { SymbolInfo } from "../types";
 import { fetchSymbols } from "../api";
 
-const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:4001";
+const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:4000";
 const EMPTY_ARRAY: SymbolInfo[] = [];
 export function useFetchSymbolList() {
   const [symbolList, setSymbolList] = useState<SymbolInfo[]>(EMPTY_ARRAY);

@@ -8,7 +8,6 @@ export interface TickViewerProps {
 }
 export default function TickViewer(props: TickViewerProps) {
   const { symbolList } = props;
-
   const [symbol, setSymbol] = useState<string>((symbolList && symbolList[0] && symbolList[0].symbol) || "AAPL");
 
   const { lastTick, ticks, setTicks } = useSubscribeTick(symbol);

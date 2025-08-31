@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Tick } from "../types";
 
-const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:4001";
+const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:4000";
 
 export function useSubscribeTick(symbol: string) {
   const [lastTick, setLastTick] = useState<Tick | null>(null);
