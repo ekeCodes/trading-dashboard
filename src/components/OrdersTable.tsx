@@ -7,7 +7,6 @@ import { useSymbolContext } from "../context/SymbolContext";
 import { useGridAutoSize } from "../hooks/useGridAutoSize";
 import type { Order } from "../types";
 import SymbolDropdown from "./SymbolsDropdown";
-import type { ColDef } from "ag-grid-community";
 
 export default function OrdersTable() {
   const { initialActiveSymbol, activeOrderSymbol, setActiveOrderSymbol } = useSymbolContext();
