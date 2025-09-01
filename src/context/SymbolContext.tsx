@@ -2,7 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import { useInitializeSymbolContext } from "../hooks/useInitializeSymbolContext";
 import type { SymbolInfo } from "../types";
 
-type SymbolContextType = {
+export type SymbolContextType = {
   symbols: SymbolInfo[];
   setSymbols: React.Dispatch<React.SetStateAction<SymbolInfo[]>>;
   initialActiveSymbol: string;
@@ -11,7 +11,7 @@ type SymbolContextType = {
   setActiveOrderSymbol: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const SymbolContext = createContext<SymbolContextType | undefined>(undefined);
+export const SymbolContext = createContext<SymbolContextType | undefined>(undefined);
 
 export const SymbolProvider = ({ children }: { children: ReactNode }) => {
   const { symbols, setSymbols, initialActiveSymbol, setInitialActiveSymbol } = useInitializeSymbolContext();

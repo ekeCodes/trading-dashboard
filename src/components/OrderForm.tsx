@@ -79,6 +79,7 @@ export default function OrderForm() {
         <label className="flex-1">
           <div className="text-sm">Qty</div>
           <input
+            data-testid="quantity-input"
             type="number"
             value={activeSymbol.qty}
             onChange={(e) => setActiveSymbol((prev) => ({ ...prev, qty: Number(e.target.value) }))}
@@ -89,6 +90,7 @@ export default function OrderForm() {
       <div className="mb-2">
         <label className="block text-sm">Price</label>
         <input
+          data-testid="price-input"
           aria-label="Price"
           type="number"
           step="0.0001"
