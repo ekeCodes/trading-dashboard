@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { postOrder } from "../api";
 import { useSymbolContext } from "../context/SymbolContext";
+import type { OrderPayload } from "../types";
 import SymbolDropdown from "./SymbolsDropdown";
-import type { OrderPayload, SymbolInfo } from "../types";
 
 export default function OrderForm() {
   const { initialActiveSymbol, symbols, setActiveOrderSymbol } = useSymbolContext();
