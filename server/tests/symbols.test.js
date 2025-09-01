@@ -69,4 +69,16 @@ describe("Symbols API", () => {
     expect(res.statusCode).toBe(201);
     expect(res.body.symbol).toBe("TEST123");
   });
+
+  test("should return 403 if unauthorized", async () => {
+    const newSymbol = {
+      symbol: "TEST123",
+      closePrice: 100,
+      name: "Test Corp 123",
+      market: "NASDAQ",
+    };
+
+    const res = await request(app).post("/api/symbols/add-symbol").set("x-admin-key", "dummy-key").send(newSymbol);
+    expect(res.statusCode).toBe(403);
+  });
 });
