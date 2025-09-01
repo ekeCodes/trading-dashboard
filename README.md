@@ -6,6 +6,7 @@ The system simulates live market ticks, allows users to place trade orders, view
 Deployed frontend on gh-pages and hosted backend service on [Render.com](https://render.com/). Used github-workflow to integrate deployment pipeline to ensure seamless deployment after every push to branch.
 
 Deployed URL: https://ekecodes.github.io/trading-dashboard/
+[Demo](public/trading-dashboard.gif)
 
 ## Features
 
