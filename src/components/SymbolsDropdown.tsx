@@ -22,7 +22,6 @@ export default function SymbolDropdown(props: SymbolDropdownProps) {
     <div className="flex flex-col gap-1">
       {label && <label className="text-sm">{label}</label>}
       <select className="p-1 border rounded-md" value={value || initialActiveSymbol} onChange={onValueSelect}>
-        <option value={value || initialActiveSymbol}>{value || initialActiveSymbol}</option>
         {symbols.map((symbol) => (
           <option key={symbol.symbol} value={symbol.symbol}>
             {symbol.symbol}

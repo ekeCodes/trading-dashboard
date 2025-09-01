@@ -192,5 +192,35 @@
     "closePrice": 610,
     "name": "Eke Test Symbol",
     "market": "INDIA"
+  },
+  {
+    "symbol": "EKETEST13",
+    "closePrice": 610,
+    "name": "Eke Test Symbol",
+    "market": "INDIA"
+  },
+  {
+    "symbol": "EKETEST14",
+    "closePrice": 610,
+    "name": "Eke Test Symbol",
+    "market": "INDIA"
+  },
+  {
+    "symbol": "EKETEST15",
+    "closePrice": 610,
+    "name": "Eke Test Symbol",
+    "market": "INDIA"
+  },
+  {
+    "symbol": "EKETEST16",
+    "closePrice": 610,
+    "name": "Eke Test Symbol",
+    "market": "INDIA"
+  },
+  {
+    "symbol": "EKETEST161",
+    "closePrice": 610,
+    "name": "Eke Test Symbol",
+    "market": "INDIA"
   }
 ]
