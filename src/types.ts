@@ -3,20 +3,22 @@ export type SymbolInfo = {
   name: string;
   market: string;
   closePrice: number;
-}
+};
 
 export type Order = {
   id: number;
   symbol: string;
-  side: 'BUY'|'SELL';
+  side: "BUY" | "SELL";
   qty: number;
   price: number;
   timestamp: number;
-}
+};
+
+export type OrderPayload = Omit<Order, "id" | "timestamp">;
 
 export type Tick = {
   symbol: string;
   price: number;
   volume: number;
   timestamp: number;
-}
+};

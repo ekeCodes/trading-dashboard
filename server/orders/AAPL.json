@@ -334,5 +334,21 @@
     "qty": 1,
     "price": 211,
     "timestamp": 1756685117
+  },
+  {
+    "id": 43,
+    "symbol": "AAPL",
+    "side": "BUY",
+    "qty": 1,
+    "price": 155,
+    "timestamp": 1756690444
+  },
+  {
+    "id": 44,
+    "symbol": "AAPL",
+    "side": "BUY",
+    "qty": 1,
+    "price": 155,
+    "timestamp": 1756691143
   }
 ]

@@ -1,3 +1,5 @@
+import type { OrderPayload } from "./types";
+
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export async function fetchSymbols() {
@@ -11,7 +13,7 @@ export async function fetchOrders(symbol: string) {
   return res.json();
 }
 
-export async function postOrder(payload: { symbol: string; side: string; qty: number; price: number }) {
+export async function postOrder(payload: OrderPayload) {
   const res = await fetch(`${API_BASE}/api/orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
