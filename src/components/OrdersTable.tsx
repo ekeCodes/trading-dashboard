@@ -7,6 +7,7 @@ import { useSymbolContext } from "../context/SymbolContext";
 import { useGridAutoSize } from "../hooks/useGridAutoSize";
 import type { Order } from "../types";
 import SymbolDropdown from "./SymbolsDropdown";
+import type { ColDef } from "ag-grid-community";
 
 export default function OrdersTable() {
   const { initialActiveSymbol, activeOrderSymbol, setActiveOrderSymbol } = useSymbolContext();
@@ -44,35 +45,30 @@ export default function OrdersTable() {
       {
         headerName: "ID",
         field: "id",
-        sortable: true,
-        filter: true,
+        filter: false,
         minWidth: 70,
       },
       {
         headerName: "Side",
         field: "side",
-        sortable: true,
         filter: "agTextColumnFilter",
         minWidth: 80,
       },
       {
         headerName: "Qty",
         field: "qty",
-        sortable: true,
         filter: "agNumberColumnFilter",
         minWidth: 75,
       },
       {
         headerName: "Price",
         field: "price",
-        sortable: true,
         filter: "agNumberColumnFilter",
         minWidth: 90,
       },
       {
         headerName: "Timestamp",
         field: "timestamp",
-        sortable: true,
         filter: "agTextColumnFilter",
         minWidth: 100,
         valueFormatter: (p: any) => new Date(p.value * 1000).toLocaleString(),
@@ -116,7 +112,7 @@ export default function OrdersTable() {
           ref={gridRef}
           rowData={rowData}
           columnDefs={columns}
-          defaultColDef={{ resizable: true, sortable: true, filter: true }}
+          defaultColDef={{ resizable: true, sortable: true, suppressMovable: true }}
           animateRows
           onGridReady={onGridReady}
         />
