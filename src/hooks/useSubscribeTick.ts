@@ -16,7 +16,17 @@ export function useSubscribeTick(symbolValue: string) {
     const ws = new WebSocket(WS_URL);
     wsRef.current = ws;
     ws.onopen = () => console.log("ws open");
-    ws.onmessage = (ev) => {
+    return () => ws.close();
+  }, []);
+
+  useEffect(() => {
+    if (!wsRef.current) return;
+    if (wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ action: "subscribe", symbol }));
+    } else {
+      wsRef.current.addEventListener("open", () => wsRef.current!.send(JSON.stringify({ action: "subscribe", symbol })), { once: true });
+    }
+    wsRef.current.onmessage = (ev) => {
       try {
         const msg = JSON.parse(ev.data);
         if (msg.type === "tick" && msg.data) {
@@ -27,16 +37,6 @@ export function useSubscribeTick(symbolValue: string) {
         }
       } catch (e) {}
     };
-    return () => ws.close();
-  }, [symbol]);
-
-  useEffect(() => {
-    if (!wsRef.current) return;
-    if (wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ action: "subscribe", symbol }));
-    } else {
-      wsRef.current.addEventListener("open", () => wsRef.current!.send(JSON.stringify({ action: "subscribe", symbol })), { once: true });
-    }
     return () => {
       if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
         wsRef.current.send(JSON.stringify({ action: "unsubscribe", symbol }));

@@ -9,10 +9,13 @@ export default function TickViewer() {
   const [activeSymbol, setActiveSymbol] = useState<string>(initialActiveSymbol);
 
   const { lastTick, ticks, setTicks } = useSubscribeTick(activeSymbol);
-  const onChange = useCallback((symbol: string) => {
-    setActiveSymbol(symbol);
-    setTicks([]);
-  }, []);
+  const onChange = useCallback(
+    (symbol: string) => {
+      setActiveSymbol(symbol);
+      setTicks([]);
+    },
+    [setTicks]
+  );
 
   return (
     <div className="p-3 border rounded bg-white h-full">

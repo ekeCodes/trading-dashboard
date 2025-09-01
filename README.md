@@ -5,7 +5,7 @@ The system simulates live market ticks, allows users to place trade orders, view
 
 Deployed frontend on gh-pages and hosted backend service on [Render.com](https://render.com/). Used github-workflow to integrate deployment pipeline to ensure seamless deployment after every push to branch.
 
-Deployed URL: (https://ekecodes.github.io/trading-dashboard/)
+Deployed URL: https://ekecodes.github.io/trading-dashboard/
 
 ## Features
 
@@ -79,6 +79,46 @@ Deployed URL: (https://ekecodes.github.io/trading-dashboard/)
    It starts the server on PORT 4000
 
 10. Open 'http://localhost:5173/trading-dashboard/' in browser to access the Trading Dashboard Website.
+
+## Run Tests
+
+1. Frontend tests
+
+```sh
+npm run test
+```
+
+2. Backend tests
+
+```sh
+cd server
+npm test
+```
+
+## Test Coverage
+
+1. **Orders Api Tests**
+
+- Ensures the API rejects incomplete requests with status 400 and a clear error message.
+- Verifies that a valid order (symbol, side, price, qty) is accepted, saved to file, and returned in the response.
+- Confirms the created order is correctly written to `server/orders/<symbol>.json`.
+- Checks that GET /api/orders?symbol=AAPL returns the correct set of saved orders.
+- Mocks the WebSocket broadcast() function and ensures it is triggered with the correct payload when a new order is created.
+
+2. **Symbols Api Tests**
+
+- Ensures GET /api/symbols returns an array of all available trading symbols.
+- Verifies that adding a symbol without required fields (symbol, closePrice, name, market) returns a 400 error.
+- Ensures that requests without a valid x-admin-key header return 403 Forbidden.
+- With a valid admin key, checks that a new symbol can be added
+
+3. **Front end tests**
+
+- **OrderForm validations** - checks required fields (symbol, price, quantity) show proper errors and allow submit/post request only sent when valid.
+
+- **OrdersTable rendering** - verifies table displays orders correctly and shows empty state when no orders exist.
+
+- **Mocked API response** - tests UI updates based on API success/error without hitting the real backend.
 
 ## Usage
 
